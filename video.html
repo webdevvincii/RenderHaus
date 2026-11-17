@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Responsive Video Grid</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-black text-white">
+
+  <div id="video-grid" class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto px-4 py-10">
+    <!-- Videos will be injected here -->
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const videos = [
+        { category: 'shorts', src: 'Videos/Shorts1.mp4' },
+        { category: 'real-estate', src: 'Videos/RealEstate1.mp4' },
+        { category: 'ads', src: 'Videos/Ads.mp4' },
+        { category: 'podcast', src: 'Videos/Podcast1.mp4' },
+        { category: 'shorts', src: 'Videos/Shorts2.mp4' },
+        { category: 'real-estate', src: 'Videos/RealEstate2.mp4' },
+      ];
+
+      const grid = document.getElementById('video-grid');
+
+      videos.forEach((video) => {
+        const videoWrapper = document.createElement('div');
+        videoWrapper.className = 'video-container relative rounded-lg overflow-hidden bg-transparent flex justify-center items-center w-full';
+
+        const videoEl = document.createElement('video');
+        videoEl.src = video.src;
+        videoEl.controls = true;
+        videoEl.className = 'video-el w-full h-auto rounded-md';
+        videoEl.setAttribute('playsinline', '');
+        videoEl.setAttribute('muted', '');
+        videoEl.setAttribute('preload', 'metadata');
+
+        videoWrapper.appendChild(videoEl);
+        grid.appendChild(videoWrapper);
+      });
+    });
+  </script>
+
+
+
+<!-- Infinite Marquee -->
+<div id="marquee-container" class="overflow-hidden bg-gradient-to-r from-gradientEnd via-black to-neonGreen bg-[length:300%_300%] animate-gradientMove font-bold py-3 mt-3 relative">
+  <div id="marquee-wrapper" class="flex w-max whitespace-nowrap items-center gap-6 will-change-transform">
+    <!-- Content will be injected by JS -->
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const wrapper = document.getElementById("marquee-wrapper");
+  const container = document.getElementById("marquee-container");
+
+  const entries = [
+    { label: "Videos for what?", img: "https://img.freepik.com/free-vector/detailed-podcast-logo-template_23-2148786067.jpg?semt=ais_hybrid&w=740" },
+    { label: "Podcast", img: "https://img.freepik.com/free-vector/detailed-podcast-logo-template_23-2148786067.jpg?semt=ais_hybrid&w=740" },
+    { label: "YouTube", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/YouTube_social_white_square_%282024%29.svg/1200px-YouTube_social_white_square_%282024%29.svg.png" },
+    { label: "TikTok", img: "https://static.vecteezy.com/system/resources/previews/006/057/996/non_2x/tiktok-logo-on-transparent-background-free-vector.jpg" },
+    { label: "Agency", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPjALG0pJf7jeOfliSMOEMYXEuW-IeFWuLCbEupy6SIxAAIHTfL7T6-XrHSDDEFSKpV7M&usqp=CAU" },
+    { label: "Media Company", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTt87zIaGO5Ro9h5LpFpg9vL7ZJeQVts2Laug&s" },
+  ];
+
+  function createSet() {
+    return entries.map(entry => `
+      <span class="text-white lg:text-xl sm:text-base mr-4 whitespace-nowrap">${entry.label}</span>
+      <img src="${entry.img}" class="lg:w-10 lg:h-10 sm:w-8 sm:h-8 rounded-full" />
+    `).join('');
+  }
+
+  wrapper.innerHTML = Array(20).fill(createSet()).join('');
+
+  let offset = 0;
+  const speed = 5;
+  let isPaused = false;
+  let isVisible = true;
+
+  function animate() {
+    if (!isPaused && isVisible) {
+      offset -= speed;
+      if (Math.abs(offset) >= wrapper.scrollWidth / 2) offset = 0;
+      wrapper.style.transform = `translate3d(${offset}px, 0, 0)`;
+    }
+    requestAnimationFrame(animate);
+  }
+
+  // Pause when out of view
+  const observer = new IntersectionObserver(([entry]) => {
+    isVisible = entry.isIntersecting;
+  }, { threshold: 0.1 });
+  observer.observe(container);
+
+  animate();
+});
+</script>
+
+<section>
+  <div class="z-10 m-10"></div>
+</section>
+
+
+</body>
+</html>
